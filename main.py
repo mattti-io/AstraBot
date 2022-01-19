@@ -135,4 +135,4 @@ async def level(ctx, member: discord.Member = None):
         else:
             await ctx.send(f'You have not leveled up yet!')
 
-client.run("OTI1ODk5ODU2NTUwMTc4ODY3.Ycz1cA.ZyG2KX7kxmyWfyZ0CXxn96EblWA")
+client.run(TOKEN)
