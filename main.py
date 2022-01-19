@@ -1,6 +1,8 @@
+import asyncio
 from contextlib import nullcontext
 from random import randint
 import discord
+import json
 from discord.ext import commands
 
 client = commands.Bot(command_prefix=',')
@@ -100,39 +102,24 @@ levels = {
 userslevels = {
 }
 
+#create a list with digit emojis
+digits = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣']
 
-# create a leveling event#
-@client.event
-async def on_message(message):
-    if message.author.bot:
-        return
-    if message.author.id in levels:
-        levels[message.author.id] += 1
-    else:
-        levels[message.author.id] = 1
-    if levels[message.author.id] == 10:
-        if message.author.id in userslevels:
-            userslevels[message.author.id] += 1
-            levels[message.author.id] = 0
-        else:
-            userslevels[message.author.id] = 1
-        await message.channel.send(f'{message.author.mention} has leveled up to level {userslevels[message.author.id]}! :tada:')
-    await client.process_commands(message)
-
-#create a command to check a user's level
+#create a dice command
 @client.command()
-async def level(ctx, member: discord.Member = None):
-    print("level command")
-    if member is not None:
-        if member.id in userslevels:
-            await ctx.send(f'{member.mention} is level {userslevels[member.id]}!')
-        else:
-            await ctx.send(f'{member.mention} is level 0!')
-    else:
-        #check if the author is already in the levels dict
-        if ctx.author.id in userslevels:
-            await ctx.send(f'{ctx.author.mention} is level {userslevels[ctx.author.id]}!')
-        else:
-            await ctx.send(f'You have not leveled up yet!')
+async def dice(ctx):
+    dice = randint(1,6)
+    i = 0
+    msg = await ctx.send(f'Rolling... ')
+    while i < 3:
+        random_digit = digits[randint(0,5)]
+        await msg.edit(content=f'Rolling... {random_digit}')
+        i += 1
+        asyncio.sleep(0.5)
+    await msg.edit(content=f'{ctx.author.mention} rolled a {digits[dice-1]}!')
 
-client.run("OTI1ODk5ODU2NTUwMTc4ODY3.Ycz1cA.ZyG2KX7kxmyWfyZ0CXxn96EblWA")
+#get the content from token.txt stored in Desktop/Projekte/Token.txt on linux
+with open('/home/matti/Desktop/Projekte/token.txt', 'r') as f:
+    token = f.read()
+
+client.run(token)
