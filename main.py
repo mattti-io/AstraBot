@@ -94,13 +94,6 @@ async def coinflip(ctx):
     coin = ['Heads', 'Tails']
     await ctx.send(f'{ctx.author.mention} flipped {coin[randint(0,1)]}!')
 
-# create a list where the user is the key and the value is 0
-levels = {
-    
-}
-
-userslevels = {
-}
 
 #create a list with digit emojis
 digits = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣']
